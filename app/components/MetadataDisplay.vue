@@ -43,54 +43,59 @@ const aspectRatio = computed(() => {
       Informacje o zdjęciu
     </h2>
 
-    <div
-      v-if="pending"
-      class="flex items-center gap-3 text-gray-500"
-      role="status"
-      aria-live="polite"
-    >
-      <span
-        class="w-4 h-4 border-2 border-gray-200 border-t-blue-600 rounded-full animate-spin"
-        aria-hidden="true"
-      />
-      Ładowanie informacji…
-    </div>
-
-    <div v-else-if="error" class="flex flex-col items-start gap-2 text-red-700">
-      <p class="m-0">Nie udało się pobrać informacji o zdjęciu.</p>
-      <button
-        type="button"
-        class="px-3.5 py-1.5 rounded-lg border border-gray-200 bg-white hover:bg-gray-100 hover:border-blue-600 transition focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/40"
-        @click="refresh()"
-      >
-        Spróbuj ponownie
-      </button>
-    </div>
-
-    <dl v-else-if="data" class="grid grid-cols-1 gap-3 m-0">
+    <ClientOnly>
       <div
-        class="grid grid-cols-1 min-[480px]:grid-cols-[140px_1fr] gap-1 min-[480px]:gap-4 pb-3 border-b border-gray-200 last:border-b-0 last:pb-0"
+        v-if="pending"
+        class="flex items-center gap-3 text-gray-500"
+        role="status"
+        aria-live="polite"
       >
-        <dt class="font-semibold text-gray-500">Autor</dt>
-        <dd class="m-0 text-gray-800">{{ data.author || '—' }}</dd>
+        <span
+          class="w-4 h-4 border-2 border-gray-200 border-t-blue-600 rounded-full animate-spin"
+          aria-hidden="true"
+        />
+        Ładowanie informacji…
       </div>
+
       <div
-        class="grid grid-cols-1 min-[480px]:grid-cols-[140px_1fr] gap-1 min-[480px]:gap-4 pb-3 border-b border-gray-200 last:border-b-0 last:pb-0"
+        v-else-if="error"
+        class="flex flex-col items-start gap-2 text-red-700"
       >
-        <dt class="font-semibold text-gray-500">Źródło</dt>
-        <dd class="m-0 text-gray-800">
-          <a
-            v-if="data.url"
-            :href="data.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-blue-600 hover:underline"
-          >
-            Zobacz na Unsplash ↗
-          </a>
-          <span v-else>—</span>
-        </dd>
+        <p class="m-0">Nie udało się pobrać informacji o zdjęciu.</p>
+        <button
+          type="button"
+          class="px-3.5 py-1.5 rounded-lg border border-gray-200 bg-white hover:bg-gray-100 hover:border-blue-600 transition focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/40"
+          @click="refresh()"
+        >
+          Spróbuj ponownie
+        </button>
       </div>
-    </dl>
+
+      <dl v-else-if="data" class="grid grid-cols-1 gap-3 m-0">
+        <div
+          class="grid grid-cols-1 min-[480px]:grid-cols-[140px_1fr] gap-1 min-[480px]:gap-4 pb-3 border-b border-gray-200 last:border-b-0 last:pb-0"
+        >
+          <dt class="font-semibold text-gray-500">Autor</dt>
+          <dd class="m-0 text-gray-800">{{ data.author || '—' }}</dd>
+        </div>
+        <div
+          class="grid grid-cols-1 min-[480px]:grid-cols-[140px_1fr] gap-1 min-[480px]:gap-4 pb-3 border-b border-gray-200 last:border-b-0 last:pb-0"
+        >
+          <dt class="font-semibold text-gray-500">Źródło</dt>
+          <dd class="m-0 text-gray-800">
+            <a
+              v-if="data.url"
+              :href="data.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-blue-600 hover:underline"
+            >
+              Zobacz na Unsplash ↗
+            </a>
+            <span v-else>—</span>
+          </dd>
+        </div>
+      </dl>
+    </ClientOnly>
   </section>
 </template>
